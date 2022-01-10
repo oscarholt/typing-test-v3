@@ -11,19 +11,31 @@ function App() {
 
   const [activeWordIndex, setActiveWordIndex] = useState(0)
 
+  function processInput(value) {
+    if (value.endsWith(" ")) {
+      //user has finished with this word
+      setActiveWordIndex((index) => index + 1)
+      setUserInput("")
+    } else {
+      setUserInput(value)
+    }
+  }
+
   return (
     <div>
       <h1>Typing Test</h1>
-      <p>{cloud.current.map((word, index) => {
-        if(index === activeWordIndex){
-          return <b>{word} </b>
-        }
-        return <span>{word} </span>
-      })}</p>
+      <p>
+        {cloud.current.map((word, index) => {
+          if (index === activeWordIndex) {
+            return <b>{word} </b>
+          }
+          return <span>{word} </span>
+        })}
+      </p>
       <input
         type='text'
         value={userInput}
-        onChange={(e) => setUserInput(e.target.value)}
+        onChange={(e) => processInput(e.target.value)}
       />
     </div>
   )

@@ -27,12 +27,24 @@ function App() {
   const cloud = useRef(getCloud())
 
   const [activeWordIndex, setActiveWordIndex] = useState(0)
+  const [correctWordArray, setCorrectWordArray] = useState([])
 
   function processInput(value) {
     if (value.endsWith(" ")) {
       //user has finished with this word
       setActiveWordIndex((index) => index + 1)
       setUserInput("")
+
+      const word = value.trim()
+      
+        // correct word
+        setCorrectWordArray(data => {
+          const newResult = [...data]
+          newResult [activeWordIndex] = word === cloud.current[activeWordIndex]
+          return newResult
+        })
+      
+
     } else {
       setUserInput(value)
     }
@@ -47,7 +59,7 @@ function App() {
             <Word
               text={word}
               active={index === activeWordIndex}
-              correct={null}
+              correct={correctWordArray[index]}
             />
           )
         })}
